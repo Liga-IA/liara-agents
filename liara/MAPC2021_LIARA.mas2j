@@ -1,0 +1,14 @@
+
+MAS mapc2021 {
+
+    infrastructure: Centralised
+
+    environment: eis.EISAdapter
+
+    agents:
+        agentA #2;
+        
+     aslSourcePath:
+		"src/asl";   
+        
+}

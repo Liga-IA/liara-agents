@@ -1,0 +1,14 @@
+{
+  "scenario": "city2020",
+  "host": "liara-server.brazilsouth.azurecontainer.io",
+  "port": 12300,
+  "scheduling": false,
+  "timeout": 40000,
+  "times": false,
+  "notifications": false,
+  "queued": false,
+  "entities": [
+    {"name": "agentA1", "username": "agentA1", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA2", "username": "agentA2", "password": "1", "iilang": false, "xml": false}
+  ]
+}

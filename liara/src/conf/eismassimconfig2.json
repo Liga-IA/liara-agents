@@ -1,0 +1,32 @@
+{
+  "scenario": "city2020",
+  "host": "liara-server.brazilsouth.azurecontainer.io",
+  "port": 12300,
+  "scheduling": false,
+  "timeout": 40000,
+  "times": false,
+  "notifications": false,
+  "queued": false,
+  "entities": [
+    {"name": "agentA1", "username": "agentA1", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA2", "username": "agentA2", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA3", "username": "agentA3", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA4", "username": "agentA4", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA5", "username": "agentA5", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA6", "username": "agentA6", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA7", "username": "agentA7", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA8", "username": "agentA8", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA9", "username": "agentA9", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA10", "username": "agentA10", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA11", "username": "agentA11", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA12", "username": "agentA12", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA13", "username": "agentA13", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA14", "username": "agentA14", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA15", "username": "agentA15", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA16", "username": "agentA16", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA17", "username": "agentA17", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA18", "username": "agentA18", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA19", "username": "agentA19", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA20", "username": "agentA20", "password": "1", "iilang": false, "xml": false}
+  ]
+}
