@@ -3,4 +3,4 @@
 
 my_role(worker).
 
-+!adoptRole(XDes,YDes): my_role(Role) <- +role(Role)[source(memory)]; adopt(Role).	
++!adoptRole(XDes,YDes): my_role(Role) <- adopt(Role).	
