@@ -1,5 +1,10 @@
 /* This module implements EXPLORATION strategies */
 
+has_block_at(w):- thing(X,Y,block,Type) & attached(X,Y) & position(X,Y+1).
+has_block_at(e):- thing(X,Y,block,Type) & attached(X,Y) & position(X,Y-1).
+has_block_at(s):- thing(X,Y,block,Type) & attached(X,Y) & position(X+1,Y).
+has_block_at(n):- thing(X,Y,block,Type) & attached(X,Y) & position(X-1,Y).
+
 /* in case it fails the previous move action, it change direction */
 +!explore_next(w): position(X,Y) <- -position(X,Y); +position(X+1,Y);  !explore(s).
 +!explore_next(e): position(X,Y) <- -position(X,Y); +position(X-1,Y);  !explore(n).

@@ -1,9 +1,11 @@
 // Agent strategy in project liara
 
 /* Initial beliefs and rules */
-position(0,0).
-maxBlocks(2).
-goingDirection(w).
+position(0,0). 		// initial position
+maxBlocks(2).  		// max of blocks
+goingDirection(w). 	// going to W at begin
+
+has_block(Type):- thing(X,Y,block,Type) & attached(X,Y).
 
 doingSomething:- movingToDispenser(XThing,YThing,Parameters)[_].
 carryingMaxBlocks:- maxBlocks(Max) & .count(attached(_,_),Qnt) &  Qnt >= Max.
@@ -26,6 +28,13 @@ roleAbleBlocks:- role(worker) | role(constructor).
 				& not(movingToRoleZone(XOther,YOther))
 	<- 	.print("################################ <<<<<>>>>>> ###########################");
 		-+movingToRoleZone(XThing,YThing).
+		
+/* In case it fails last MOVE action randomly - it repeats the action 
+ * (TO DO) - Update position(X,Y) to previous one according the direction
+ * */
++step(X): lastActionResult(random_failure)[_] & lastAction(move)[_] & lastActionParams([Direction])[_] 
+	<-  !update_back_position(Direction);
+		!move(Direction).
 		
 /* IT PERCEIVES IT HAS THE BLOCK REQUIRED FOR A SIMPLE TASK (1 block) */
 +step(X): task(TName,Deadline,Reward,[req(0,1,Type)])[_] & has_block(Type) & goalZone(X1,Y1)[source(memory)] 
@@ -58,8 +67,16 @@ roleAbleBlocks:- role(worker) | role(constructor).
 	<- 	.print("<<<<<<< EXPLORE >>>>>>> ");
 		!explore_next(Direction).
 		
++step(X): lastActionResult(failed_path)[_] & lastAction(move)[_] & lastActionParams([Direction])[_] 
+	<- 	!update_back_position(Direction);
+		!explore_next(Direction).
+		
 /* Otherwise It keeps going to the previous direction */
 +step(X): goingDirection(Direction)
+	<- 	.print("<<<<<<< EXPLORE >>>>>>> ");
+		!explore(Direction).
+		
++no_action(_): goingDirection(Direction)
 	<- 	.print("<<<<<<< EXPLORE >>>>>>> ");
 		!explore(Direction).
 
