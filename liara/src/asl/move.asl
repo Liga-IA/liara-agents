@@ -44,14 +44,13 @@
 +!moveTo(XDes,YDes,_): position(XMy,YMy) & YMy < YDes  <-  !move(s).
 +!moveTo(XDes,YDes,_): position(XMy,YMy) & YMy > YDes  <-  !move(n).
 
-
 /* MOVE with no absolute position (there is no information from the server, so it keeps a believe about it) */
 +!move(n): position(X,Y) <- -position(X,Y); move(n); +position(X,Y-1).
 +!move(s): position(X,Y) <- -position(X,Y); move(s); +position(X,Y+1).
 +!move(e): position(X,Y) <- -position(X,Y); move(e); +position(X+1,Y).
 +!move(w): position(X,Y) <- -position(X,Y); move(w); +position(X-1,Y).
 
-/* MOVE with no absolute position (there is no information from the server, so it keeps a believe about it) */
+/* Fix Memory when the MOVE action fails */
 +!update_back_position(n): position(X,Y) <- -position(X,Y); +position(X,Y+1).
 +!update_back_position(s): position(X,Y) <- -position(X,Y); +position(X,Y-1).
 +!update_back_position(e): position(X,Y) <- -position(X,Y); +position(X-1,Y).
