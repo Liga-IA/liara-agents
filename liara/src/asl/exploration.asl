@@ -6,10 +6,10 @@ has_block_at(s):- thing(X,Y,block,Type) & attached(X,Y) & position(X+1,Y).
 has_block_at(n):- thing(X,Y,block,Type) & attached(X,Y) & position(X-1,Y).
 
 /* in case it fails the previous move action, it change direction */
-+!explore_next(w): position(X,Y) <- -position(X,Y); +position(X+1,Y);  !explore(s).
-+!explore_next(e): position(X,Y) <- -position(X,Y); +position(X-1,Y);  !explore(n).
-+!explore_next(n): position(X,Y) <- -position(X,Y); +position(X,Y+1);  !explore(w).
-+!explore_next(s): position(X,Y) <- -position(X,Y); +position(X,Y-1);  !explore(e).
++!explore_next(w): position(X,Y) <- -position(X,Y); +position(X+1,Y); -+goingDirection(s); !explore(s).
++!explore_next(e): position(X,Y) <- -position(X,Y); +position(X-1,Y); -+goingDirection(n); !explore(n).
++!explore_next(n): position(X,Y) <- -position(X,Y); +position(X,Y+1); -+goingDirection(w); !explore(w).
++!explore_next(s): position(X,Y) <- -position(X,Y); +position(X,Y-1); -+goingDirection(e); !explore(e).
 
 /* Exploration Strategy without blocks */
 +!explore(w): not(thing(-1,0,obstacle,_)) & not(thing(-1,0,entity,_)) <- !move(w).

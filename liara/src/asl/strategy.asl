@@ -20,14 +20,12 @@ roleAbleBlocks:- role(worker) | role(constructor).
 +thing(XThing,YThing,dispenser,Parameters)[source(memory)]: 
 		not(doingSomething) & not(carryingMaxBlocks) &
 		position(XMy,YMy) & roleAbleBlocks & not(has_block(Parameters))
-	<- 	.print("Perceived a [DISPENSER] at position (",XThing,",",YThing,") fo the type: ", Parameters,	" going to there..");
-	+movingToDispenser(XThing,YThing,Parameters).
+	<- 	+movingToDispenser(XThing,YThing,Parameters).
 	
 /* perceives a [ROLEZONE] */ 
 +roleZone(XThing,YThing)[source(memory)]: my_role(Role) & not(role(Role)[_]) 
 				& not(movingToRoleZone(XOther,YOther))
-	<- 	.print("################################ <<<<<>>>>>> ###########################");
-		-+movingToRoleZone(XThing,YThing).
+	<- 	-+movingToRoleZone(XThing,YThing).
 		
 /* In case it fails last MOVE action randomly - it repeats the action 
  * (TO DO) - Update position(X,Y) to previous one according the direction
@@ -36,19 +34,24 @@ roleAbleBlocks:- role(worker) | role(constructor).
 	<-  !update_back_position(Direction);
 		!move(Direction).
 		
-/* IT PERCEIVES IT HAS THE BLOCK REQUIRED FOR A SIMPLE TASK (1 block) */
+/* It perceives it has the block required for a SIMPLE task (1 block) */
 +step(X): task(TName,Deadline,Reward,[req(0,1,Type)])[_] & has_block(Type) & goalZone(X1,Y1)[source(memory)] 
-	<- !deliver_task(TName,Deadline,Reward,[req(0,1,Type)]).
-		
-/* MOVING TO DISPENSERS */
-+step(X) : movingToDispenser(XDes,YDes,Parameters) 
-	<- 	.print("<<<<<<< MOVE TO DISPENSER >>>>>>> (", XDes,",",YDes,") ---- ");
-		!moveTo(XDes,YDes,dispenser).
+	<- 	!deliver_task(TName,Deadline,Reward,[req(0,1,Type)]).
+
+/* It knows a simple task (1 block) and knows dispenser and goal zone
++step(X): task(TName,Deadline,Reward,[req(0,1,Type)])[_] & not(has_block(Type)) & thing(XD,YD,dispenser,Type) & goalZone(X1,Y1)[source(memory)] 
+	<- 	+movingToDispenser(XD,YD,Parameters);
+		!moveTo(XD,YD,dispenser). //trigger the move_to dispenser
 
 /* MOVING TO ROLE ZONES */
 +step(X) : movingToRoleZone(XDes,YDes)
 	<- 	.print("<<<<<<< MOVE TO ROLE-ZONE >>>>>>> (", XDes,",",YDes,") ---- ");
 		!moveTo(XDes,YDes,rolezone).
+
+/* MOVING TO DISPENSERS */
++step(X) : movingToDispenser(XDes,YDes,Parameters) 
+	<- 	.print("<<<<<<< MOVE TO DISPENSER >>>>>>> (", XDes,",",YDes,") ---- ");
+		!moveTo(XDes,YDes,dispenser).
 
 /* MOVING TO GOAL ZONES */
 +step(X) : movingToGoalZone(XDes,YDes)
