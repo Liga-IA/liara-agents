@@ -35,8 +35,8 @@ roleAbleBlocks:- role(worker) | role(constructor).
 		!move(Direction).
 		
 /* It perceives it has the block required for a SIMPLE task (1 block) */
-+step(X): task(TName,Deadline,Reward,[req(0,1,Type)])[_] & has_block(Type) & goalZone(X1,Y1)[source(memory)] 
-	<- 	!deliver_task(TName,Deadline,Reward,[req(0,1,Type)]).
++step(X): task(TName,Deadline,Reward,[req(XDel,YDel,Type)])[_] & has_block(Type) & goalZone(X1,Y1)[source(memory)] 
+	<- 	!deliver_task(TName,Deadline,Reward,[req(XDel,YDel,Type)]).
 
 /* It knows a simple task (1 block) and knows dispenser and goal zone
 +step(X): task(TName,Deadline,Reward,[req(0,1,Type)])[_] & not(has_block(Type)) & thing(XD,YD,dispenser,Type) & goalZone(X1,Y1)[source(memory)] 
@@ -45,30 +45,25 @@ roleAbleBlocks:- role(worker) | role(constructor).
 
 /* MOVING TO ROLE ZONES */
 +step(X) : movingToRoleZone(XDes,YDes)
-	<- 	.print("<<<<<<< MOVE TO ROLE-ZONE >>>>>>> (", XDes,",",YDes,") ---- ");
-		!moveTo(XDes,YDes,rolezone).
+	<- 	!moveTo(XDes,YDes,rolezone).
 
 /* MOVING TO DISPENSERS */
 +step(X) : movingToDispenser(XDes,YDes,Parameters) 
-	<- 	.print("<<<<<<< MOVE TO DISPENSER >>>>>>> (", XDes,",",YDes,") ---- ");
-		!moveTo(XDes,YDes,dispenser).
+	<- 	!moveTo(XDes,YDes,dispenser).
 
 /* MOVING TO GOAL ZONES */
 +step(X) : movingToGoalZone(XDes,YDes)
-	<- 	.print("<<<<<<< MOVE TO ROLE-ZONE >>>>>>> (", XDes,",",YDes,") ---- ");
-		!moveTo(XDes,YDes,golezone).
+	<- 	!moveTo(XDes,YDes,golezone).
 		
 /* COLLECTING BLOCKS */		
 +step(X) : collectingBlocks(XDes,YDes,Parameters)
-	<- 	.print("<<<<<<< COLLECTING BLOCKS >>>>>>> (", XDes,",",YDes,") ---- ");
-		!collectBlocks(XDes,YDes,Parameters).
+	<- 	!collectBlocks(XDes,YDes,Parameters).
+	
 		
 /* EXPLORATION STRATEGY */	
-	
 /* In case the last MOVE action fails, it changes direction		*/
 +step(X): goingDirection(Direction) & lastActionResult(failed_path)[_] & lastAction(move)[_] & lastActionParams([Direction])[_]
-	<- 	.print("<<<<<<< EXPLORE >>>>>>> ");
-		!explore_next(Direction).
+	<- 	!explore_next(Direction).
 		
 +step(X): lastActionResult(failed_path)[_] & lastAction(move)[_] & lastActionParams([Direction])[_] 
 	<- 	!update_back_position(Direction);
@@ -76,10 +71,8 @@ roleAbleBlocks:- role(worker) | role(constructor).
 		
 /* Otherwise It keeps going to the previous direction */
 +step(X): goingDirection(Direction)
-	<- 	.print("<<<<<<< EXPLORE >>>>>>> ");
-		!explore(Direction).
+	<- 	!explore(Direction).
 		
-+no_action(_): goingDirection(Direction)
-	<- 	.print("<<<<<<< EXPLORE >>>>>>> ");
-		!explore(Direction).
++no_action(_)
+	<- 	!explore(w).
 

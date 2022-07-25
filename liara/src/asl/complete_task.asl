@@ -17,7 +17,7 @@ has_block(Type):- thing(X,Y,block,Type) & attached(X,Y).
 	<- 	rotate(cw).
 	
 /* in case it is not at goalZone - MOVE */
-+!deliver_task(TName,Deadline,Reward,[req(0,1,Type)])[_]: goalZone(X,Y)[source(memory)] 
++!deliver_task(TName,Deadline,Reward,[req(XDel,YDel,Type)])[_]: goalZone(X,Y)[source(memory)] 
 	<- 	-+movingToGoalZone(X,Y);
 		!moveTo(X,Y,goalzone).
 		
