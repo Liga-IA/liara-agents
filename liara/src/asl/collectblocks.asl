@@ -1,7 +1,8 @@
 
 
-/* This ASL file implements the strategies for collecting blocks  */
+/* This file implements the strategies for collecting blocks  */
 
+// (to do)
 // - include verification for checking if it already has a block at that position
 // - include a better strategy: rotate and get another block (keep going with 2 blocks attached) 
 // (maybe front and Back, so that facilitates movement)
