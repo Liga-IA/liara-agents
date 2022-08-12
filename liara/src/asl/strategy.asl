@@ -2,10 +2,8 @@
 
 /* Initial beliefs and rules */
 position(0,0). 		    // initial position
-maxBlocks(2).  		    // max of blocks
+maxBlocks(1).  		    // max of blocks
 goingDirection(w). 	    // going to W at begin
-
-has_block(Type):- thing(X,Y,block,Type) & attached(X,Y).
 
 doingSomething:- movingToDispenser(XThing,YThing,Parameters)[_].
 carryingMaxBlocks:- maxBlocks(Max) & .count(attached(_,_),Qnt) &  Qnt >= Max.
@@ -26,12 +24,20 @@ roleAbleBlocks:- role(worker) | role(constructor).
 +step(X): lastActionResult(failed_path)[_] & lastAction(move)[_] & lastActionParams([Direction])[_] 
 	<- 	!change_direction(Direction);
 		!continue.
-		
-/* In case it has sucess on moving, update its position */
+
+/* In case it has success on moving, update its position */
 +step(X): lastActionResult(success)[_] & lastAction(move)[_] & lastActionParams([Direction])[_] 
 	<-  !update_position(Direction);
 		!update_memory;
 		!continue.
+		
+/* fails at target for clear action -> go to CCW */		
++step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([-1,0])[_] & thing(-1,0,entity,_)[_] <- !moveTo(XMy,YMy-1,avoid).
++step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([1,0])[_]  & thing(1,0,entity,_)[_]  <- !moveTo(XMy,YMy+1,avoid).
++step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([0,-1])[_] & thing(0,-1,entity,_)[_] <- !moveTo(XMy+1,YMy,avoid).
++step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([0,1])[_]  & thing(0,1,entity,_)[_]  <- !moveTo(XMy-1,YMy,avoid).
+
+
 		
 /* It continues after treating failures */		
 +step(X) <- !continue.
@@ -42,7 +48,7 @@ roleAbleBlocks:- role(worker) | role(constructor).
 
 /* MOVING TO ROLE ZONES */
 /* It doesn't has a role yet and knows any RoleZone	*/
-+!continue: my_role(Role) & not(role(Role)[_]) & not(movingToRoleZone(XOther,YOther)) & roleZone(XThing,YThing)[source(memory)] 
++!continue: my_role(Role) & not(role(Role)[_]) & not(movingToRoleZone(_,_)) & roleZone(XThing,YThing)[source(memory)] 
 	<- 	+movingToRoleZone(XThing,YThing);
 	  	!moveTo(XThing,YThing,rolezone).
 	  	
@@ -56,7 +62,7 @@ roleAbleBlocks:- role(worker) | role(constructor).
 
 /* MOVING TO GOAL ZONES */
 +!continue: movingToGoalZone(XDes,YDes)
-	<- 	!moveTo(XDes,YDes,golezone).
+	<- 	!moveTo(XDes,YDes,goalzone).
 		
 /* COLLECTING BLOCKS */		
 +!continue: collectingBlocks(XDes,YDes,Parameters)
