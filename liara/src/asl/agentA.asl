@@ -10,5 +10,6 @@
 { include("strategy.asl") }  		// decision making strategy
 { include("collectblocks.asl") }  	// collect blocks strategy
 { include("adoptrole.asl") }  		// adopt role strategy
-{ include("exploration.asl") }  	// adopt role strategy
-{ include("complete_task.asl") }  	// adopt role strategy
+{ include("exploration.asl") }  	// exploration strategy
+{ include("complete_task.asl") }  	// complete tasks strategy
+{ include("synchronism.asl") }  	// synchronism strategy

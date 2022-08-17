@@ -34,7 +34,6 @@ has_block_at(n):- position(X,Y) & thing(X,Y-1,block,Type) & attached(X,Y-1).
 +!explore(n) <- clear(0,-1).
 
 
-
 /* OLD */
 //+!explore(w): not(thing(-1,0,obstacle,_)) & not(thing(-1,0,entity,_)) <- !move(w).
 //+!explore(w): not(thing(0,1,obstacle,_)) & not(thing(0,1,entity,_))   <- -goingDirection(_); +goingDirection(s); !move(s).

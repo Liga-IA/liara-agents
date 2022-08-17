@@ -6,7 +6,7 @@ maxBlocks(1).  		    // max of blocks
 goingDirection(w). 	    // going to W at begin
 
 doingSomething:- movingToDispenser(XThing,YThing,Parameters)[_].
-carryingMaxBlocks:- maxBlocks(Max) & .count(attached(_,_),Qnt) &  Qnt >= Max.
+carryingMaxBlocks:- maxBlocks(Max) & .count(has_block(_),Qnt) &  Qnt >= Max.
 roleAbleBlocks:- role(worker) | role(constructor).
 
 /* Initial goals */
@@ -28,7 +28,9 @@ roleAbleBlocks:- role(worker) | role(constructor).
 /* In case it has success on moving, update its position */
 +step(X): lastActionResult(success)[_] & lastAction(move)[_] & lastActionParams([Direction])[_] 
 	<-  !update_position(Direction);
-		!update_memory;
+		?position(XMy,YMy);
+		!update_memory; //fazer idependente (!!) passando posição
+		!!update_mate(X,XMy,YMy);
 		!continue.
 		
 /* fails at target for clear action -> go to CCW */		
@@ -36,6 +38,20 @@ roleAbleBlocks:- role(worker) | role(constructor).
 +step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([1,0])[_]  & thing(1,0,entity,_)[_]  <- !moveTo(XMy,YMy+1,avoid).
 +step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([0,-1])[_] & thing(0,-1,entity,_)[_] <- !moveTo(XMy+1,YMy,avoid).
 +step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([0,1])[_]  & thing(0,1,entity,_)[_]  <- !moveTo(XMy-1,YMy,avoid).
+
+/* success attaching a block */
++step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams(_)[_] <- +carrying_block;  !continue.
+//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([e])[_] <- +carrying_block(1,0);  !continue.
+//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([w])[_] <- +carrying_block(-1,0); !continue.
+//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([s])[_] <- +carrying_block(0,1);  !continue.
+//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([n])[_] <- +carrying_block(0,-1); !continue.
+/* fails attaching a block -> tries again */
++step(X): lastActionResult(random_failure)[_] & lastAction(attach)[_] & lastActionParams([Direction])[_] <- attach(Direction).
+/* fails requesting block at dispenser -> tries again */
++step(X): lastActionResult(random_failure)[_] & lastAction(request)[_] & lastActionParams([Direction])[_] <- request(Direction).
+
+/* success submit task */
++step(X): lastActionResult(success)[_] & lastAction(submit)[_] & lastActionParams(_)[_] <- -carrying_block;  !continue.
 
 
 		

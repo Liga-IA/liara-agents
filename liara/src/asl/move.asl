@@ -145,10 +145,11 @@
 
 
 /* MOVE action*/
-+!move(s) <- move(s).
-+!move(n) <- move(n).
-+!move(e) <- move(e).
-+!move(w) <- move(w).
++!move(X) <- move(X).
+//+!move(s) <- move(s).
+//+!move(n) <- move(n).
+//+!move(e) <- move(e).
+//+!move(w) <- move(w).
 
 /* update memory about position */
 +!update_position(s): position(X,Y) <- -position(X,Y); +position(X,Y+1).

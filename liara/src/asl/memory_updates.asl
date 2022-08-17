@@ -3,7 +3,8 @@
 +!update_memory 
 	<-	!update_dispensers;
 		!update_roleZones;
-		!update_goalZones.
+		!update_goalZones;
+		!fix_carrying_blocks.
 	
 +!update_dispensers 
 	<- 	!add_dispenser;
@@ -58,4 +59,7 @@
 	
 +!move_to_goalZone(XZone,YZone) <- true.
 	
+/* In case it lose the block because a clear event */
++!fix_carrying_blocks: not(attached(_,_)) & carrying_block <- -carrying_block.
++!fix_carrying_blocks <- -true.
 	

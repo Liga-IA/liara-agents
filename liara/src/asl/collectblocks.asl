@@ -7,6 +7,8 @@
 // - include a better strategy: rotate and get another block (keep going with 2 blocks attached) 
 // (maybe front and Back, so that facilitates movement)
 
+/* (TO DO) - create a belief it is carrying the block after attach, and use this believe to test has_block(_) ..  */
+
 +!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & not(requested(XDes,YDes,Blocks))
 	<-	request(e);
 		+requested(XDes,YDes,Blocks).
@@ -43,3 +45,4 @@
 	<-	-requested(XDes,YDes,Blocks);
 		attach(n);
 		-collectingBlocks(XDes,YDes,Blocks).
+		

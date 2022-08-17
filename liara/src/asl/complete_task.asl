@@ -2,8 +2,8 @@
 
 /* Initial beliefs and rules */
 
-has_block(Type):- thing(X,Y,block,Type) & attached(X,Y) & (math.abs(X) + math.abs(Y)) == 1.
-has_block_at(XDel,YDel,Type) :- thing(XDel,YDel,block,Type) & attached(XDel,YDel) & (math.abs(XDel) + math.abs(YDel)) == 1.
+has_block(Type):- thing(X,Y,block,Type) & attached(X,Y) & carrying_block & (math.abs(X) + math.abs(Y)) == 1.
+has_block_at(XDel,YDel,Type) :- thing(XDel,YDel,block,Type) & attached(XDel,YDel) & carrying_block & (math.abs(XDel) + math.abs(YDel)) == 1.
 
 /* Initial goals */
 
