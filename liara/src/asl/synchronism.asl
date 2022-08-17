@@ -12,7 +12,7 @@ team_group(List):- .findall(Name,mate_filter(Name,_,_)[_],List).
 		!!clear_old_found_mate(S).
 	
 +!clear_old_found_mate(S) 
-	<- 	for(found_mate(XMate,YMate,X,Y,S2)[_] & S2 < S+5 ){
+	<- 	for(found_mate(XMate,YMate,X,Y,S2)[_] & S2+2 < S ){
 			-found_mate(XMate,YMate,X,Y,S2)[_]
 		}.
 

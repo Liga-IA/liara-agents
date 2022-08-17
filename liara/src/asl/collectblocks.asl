@@ -2,47 +2,41 @@
 
 /* This file implements the strategies for collecting blocks  */
 
-// (to do)
+// (to do) (later)
 // - include verification for checking if it already has a block at that position (when using 2 or more blocks)
 // - include a better strategy: rotate and get another block (keep going with 2 blocks attached) 
 // (maybe front and Back, so that facilitates movement)
 
-/* (TO DO) - create a belief it is carrying the block after attach, and use this believe to test has_block(_) ..  */
-
 +!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & not(requested(XDes,YDes,Blocks))
-	<-	request(e);
-		+requested(XDes,YDes,Blocks).
+	<-	+requested(XDes,YDes,Blocks);
+		request(e).
 
 +!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & not(requested(XDes,YDes,Blocks))
-	<-	request(w);
-		+requested(XDes,YDes,Blocks).
+	<-	+requested(XDes,YDes,Blocks);
+		request(w).
 		
 +!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes-1) & not(requested(XDes,YDes,Blocks))
-	<-	request(s);
-		+requested(XDes,YDes,Blocks).
+	<- 	+requested(XDes,YDes,Blocks);
+		request(s).
 		
 +!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes+1) & not(requested(XDes,YDes,Blocks))
-	<-	request(n);
-		+requested(XDes,YDes,Blocks).
+	<-	+requested(XDes,YDes,Blocks);
+		request(n).
 		
 	
 +!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & requested(XDes,YDes,Blocks)
-	<-	-requested(XDes,YDes,Blocks);
-		attach(e);
+	<-	attach(e);
 		-collectingBlocks(XDes,YDes,Blocks).
 	
 +!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & requested(XDes,YDes,Blocks)
-	<-	-requested(XDes,YDes,Blocks);
-		attach(w);
+	<-	attach(w);
 		-collectingBlocks(XDes,YDes,Blocks).
 	
 +!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes-1) & requested(XDes,YDes,Blocks)
-	<-	-requested(XDes,YDes,Blocks);
-		attach(s);
+	<-	attach(s);
 		-collectingBlocks(XDes,YDes,Blocks).
 
 +!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes+1) & requested(XDes,YDes,Blocks)
-	<-	-requested(XDes,YDes,Blocks);
-		attach(n);
+	<-	attach(n);
 		-collectingBlocks(XDes,YDes,Blocks).
 		

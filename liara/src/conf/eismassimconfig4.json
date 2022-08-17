@@ -1,0 +1,22 @@
+{
+  "scenario": "city2020",
+  "host": "localhost",
+  "port": 12300,
+  "scheduling": false,
+  "timeout": 40000,
+  "times": false,
+  "notifications": false,
+  "queued": false,
+  "entities": [
+    {"name": "agentA1", "username": "agentA1", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA2", "username": "agentA2", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA3", "username": "agentA3", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA4", "username": "agentA4", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA5", "username": "agentA5", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA6", "username": "agentA6", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA7", "username": "agentA7", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA8", "username": "agentA8", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA9", "username": "agentA9", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA10", "username": "agentA10", "password": "1", "iilang": false, "xml": false}
+  ]
+}

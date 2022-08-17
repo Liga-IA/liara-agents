@@ -29,7 +29,7 @@ roleAbleBlocks:- role(worker) | role(constructor).
 +step(X): lastActionResult(success)[_] & lastAction(move)[_] & lastActionParams([Direction])[_] 
 	<-  !update_position(Direction);
 		?position(XMy,YMy);
-		!update_memory; //fazer idependente (!!) passando posição
+		!update_memory(XMy,YMy); 
 		!!update_mate(X,XMy,YMy);
 		!continue.
 		
@@ -39,19 +39,24 @@ roleAbleBlocks:- role(worker) | role(constructor).
 +step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([0,-1])[_] & thing(0,-1,entity,_)[_] <- !moveTo(XMy+1,YMy,avoid).
 +step(X): lastActionResult(failed_target)[_] & position(XMy,YMy) & lastAction(clear)[_] & lastActionParams([0,1])[_]  & thing(0,1,entity,_)[_]  <- !moveTo(XMy-1,YMy,avoid).
 
+/* fails submitting task -> normally it is because goalZone disappeared */
++step(X): lastActionResult(failed)[_] & lastAction(submit)[_] & lastActionParams(_)[_] <- !fix_goalZones; !continue.
+
+/* fails rotating */		
++step(X): lastActionResult(failed)[_] & lastAction(rotate)[_] & lastActionParams([ccw])[_] & position(XMy,YMy)<- !moveTo(XMy+1,YMy,avoid).
++step(X): lastActionResult(failed)[_] & lastAction(rotate)[_] & lastActionParams([cw])[_] & position(XMy,YMy)<- !moveTo(XMy-1,YMy,avoid).
+
 /* success attaching a block */
-+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams(_)[_] <- +carrying_block;  !continue.
-//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([e])[_] <- +carrying_block(1,0);  !continue.
-//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([w])[_] <- +carrying_block(-1,0); !continue.
-//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([s])[_] <- +carrying_block(0,1);  !continue.
-//+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams([n])[_] <- +carrying_block(0,-1); !continue.
++step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams(_)[_] <- -requested(_,_,_); +carrying_block;  !continue.
+/* success submit task */
++step(X): lastActionResult(success)[_] & lastAction(submit)[_] & lastActionParams(_)[_] <- -carrying_block;  !continue.
+
 /* fails attaching a block -> tries again */
 +step(X): lastActionResult(random_failure)[_] & lastAction(attach)[_] & lastActionParams([Direction])[_] <- attach(Direction).
 /* fails requesting block at dispenser -> tries again */
 +step(X): lastActionResult(random_failure)[_] & lastAction(request)[_] & lastActionParams([Direction])[_] <- request(Direction).
 
-/* success submit task */
-+step(X): lastActionResult(success)[_] & lastAction(submit)[_] & lastActionParams(_)[_] <- -carrying_block;  !continue.
+
 
 
 		
