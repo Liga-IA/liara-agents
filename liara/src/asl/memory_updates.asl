@@ -66,13 +66,13 @@ attached_agent(X,Y):- attached(X,Y) & team(Team) & thing(X,Y,entity,Team) & (mat
 
 
 /* Inform others in the group about the finds */
-+!tell_other(dispenser,XT,YT,Parameters): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(dispenser,XT,YT,Parameters)).
++!tell_other(dispenser,XT,YT,Parameters): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(dispenser,XT,YT,Parameters)[list(List)]).
 +!tell_other(dispenser,XT,YT,Parameters): team_group(List) & .empty(List)      <- true.
 
-+!tell_other(goalzone,XZ,YZ): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(goalzone,XZ,YZ)).
++!tell_other(goalzone,XZ,YZ): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(goalzone,XZ,YZ)[list(List)]).
 +!tell_other(goalzone,XZ,YZ): team_group(List) & .empty(List) <- true.
 
-+!tell_other(rolezone,XZ,YZ): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(rolezone,XZ,YZ)).
++!tell_other(rolezone,XZ,YZ): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(rolezone,XZ,YZ)[list(List)]).
 +!tell_other(rolezone,XZ,YZ): team_group(List) & .empty(List) <- true.
 
 
@@ -81,7 +81,10 @@ attached_agent(X,Y):- attached(X,Y) & team(Team) & thing(X,Y,entity,Team) & (mat
 /* In case it lose the block because a clear event */
 +!fix_issues: not(attached(_,_)) & carrying_block <- -carrying_block.
 /* In case it attaches with another agent */
-+!fix_issues: attached_agent(X,Y) <- detach(X,Y).
++!fix_issues: attached_agent(0,-1) <- detach(n).
++!fix_issues: attached_agent(0,1)  <- detach(s).
++!fix_issues: attached_agent(1,0)  <- detach(e).
++!fix_issues: attached_agent(-1,0) <- detach(w).
 +!fix_issues <- true.
 
 +!fix_goalZones: position(XMy, YMy) & goalZone(XMy,YMy)[source(memory)] & not(goalZone(0,0)[source(percept)]) 
