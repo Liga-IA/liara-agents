@@ -8,12 +8,11 @@ team_group(List):- .findall(Name,mate_filter(Name,_,_)[_],List).
 	<- 	for(thing(XMate,YMate,entity,Team) & not( XMate==0 | YMate==0 ) ){
 			+found_mate(XMate,YMate,XMy,YMy,S)[source(memory)]; 
 			.broadcast(achieve,add_mate(Name,XMate,YMate,XMy,YMy,S));
-		}
-		!!clear_old_found_mate(S).
+		}.
 	
 +!clear_old_found_mate(S) 
-	<- 	for(found_mate(XMate,YMate,X,Y,S2)[_] & S2+4 < S ){
-			-found_mate(XMate,YMate,X,Y,S2)[_]
+	<- 	for(found_mate(XMate,YMate,X,Y,SO)[source(memory)] & SO+4 < S ){
+			-found_mate(XMate,YMate,X,Y,SO)[source(memory)]
 		}.
 
 +!add_mate(Name,XO,YO,XOA,YOA,S): not(name(Name)) & 

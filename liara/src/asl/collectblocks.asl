@@ -7,36 +7,29 @@
 // - include a better strategy: rotate and get another block (keep going with 2 blocks attached) 
 // (maybe front and Back, so that facilitates movement)
 
-+!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & not(requested(XDes,YDes,Blocks))
-	<-	+requested(XDes,YDes,Blocks);
-		request(e).
++!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & thing(1,0,block,Blocks)
+	<-	attach(e).
+	
++!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & thing(-1,0,block,Blocks)
+	<-	attach(w).
+	
++!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes-1) & thing(0,1,block,Blocks)
+	<-	attach(s).
 
-+!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & not(requested(XDes,YDes,Blocks))
-	<-	+requested(XDes,YDes,Blocks);
-		request(w).
++!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes+1) & thing(0,-1,block,Blocks)
+	<-	attach(n).
 		
-+!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes-1) & not(requested(XDes,YDes,Blocks))
-	<- 	+requested(XDes,YDes,Blocks);
-		request(s).
-		
-+!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes+1) & not(requested(XDes,YDes,Blocks))
-	<-	+requested(XDes,YDes,Blocks);
-		request(n).
-		
-	
-+!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & requested(XDes,YDes,Blocks)
-	<-	attach(e);
-		-collectingBlocks(XDes,YDes,Blocks).
-	
-+!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & requested(XDes,YDes,Blocks)
-	<-	attach(w);
-		-collectingBlocks(XDes,YDes,Blocks).
-	
-+!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes-1) & requested(XDes,YDes,Blocks)
-	<-	attach(s);
-		-collectingBlocks(XDes,YDes,Blocks).
 
-+!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes+1) & requested(XDes,YDes,Blocks)
-	<-	attach(n);
-		-collectingBlocks(XDes,YDes,Blocks).
++!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & thing(XDes,YDes,dispenser,Blocks)
+	<-	request(e).
+
++!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & thing(XDes,YDes,dispenser,Blocks)
+	<-	request(w).
 		
++!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes-1) & thing(XDes,YDes,dispenser,Blocks)
+	<- 	request(s).
+		
++!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes+1) & thing(XDes,YDes,dispenser,Blocks)
+	<-	request(n).
+	
+

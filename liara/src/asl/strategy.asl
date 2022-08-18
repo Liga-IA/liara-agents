@@ -31,6 +31,7 @@ roleAbleBlocks:- role(worker) | role(constructor).
 		?position(XMy,YMy);
 		!update_memory(XMy,YMy); 
 		!!update_mate(X,XMy,YMy);
+		!!clear_old_found_mate(X);
 		!continue.
 		
 /* fails at target for clear action -> go to CCW */		
@@ -42,12 +43,14 @@ roleAbleBlocks:- role(worker) | role(constructor).
 /* fails submitting task -> normally it is because goalZone disappeared */
 +step(X): lastActionResult(failed)[_] & lastAction(submit)[_] & lastActionParams(_)[_] <- !fix_goalZones; !continue.
 
++step(X): lastActionResult(failed_location)[_] & lastAction(adopt)[_] & lastActionParams(_)[_] <- !fix_roleZones; !continue.
+
 /* fails rotating */		
 +step(X): lastActionResult(failed)[_] & lastAction(rotate)[_] & lastActionParams([ccw])[_] & position(XMy,YMy)<- !moveTo(XMy+1,YMy,avoid).
 +step(X): lastActionResult(failed)[_] & lastAction(rotate)[_] & lastActionParams([cw])[_] & position(XMy,YMy)<- !moveTo(XMy-1,YMy,avoid).
 
 /* success attaching a block */
-+step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams(_)[_] <- -requested(_,_,_); +carrying_block;  !continue.
++step(X): lastActionResult(success)[_] & lastAction(attach)[_] & lastActionParams(_)[_] <- -collectingBlocks(_,_,_); +carrying_block;  !continue.
 /* success submit task */
 +step(X): lastActionResult(success)[_] & lastAction(submit)[_] & lastActionParams(_)[_] <- -carrying_block;  !continue.
 

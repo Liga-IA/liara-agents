@@ -46,7 +46,7 @@ attached_agent(X,Y):- attached(X,Y) & team(Team) & thing(X,Y,entity,Team) & (mat
 +!move_to_dispenser(XMy,YMy): roleAbleBlocks & not(has_block(Parameters) & carryingMaxBlocks) &
 		thing(XThing,YThing,dispenser,Parameters)[entity(Myname),source(percept)] 
 		& not(movingToDispenser(XOther,YOther) & ( math.abs((XOther-XMy)+(YOther-YMy)) <= math.abs((XThing-XMy) + (YThing-YMy)) ))
-	<-  -movingToDispenser(_,_); +movingToDispenser(XMy+XThing,YMy+YThing,Parameters).
+	<-  -movingToDispenser(_,_,_); +movingToDispenser(XMy+XThing,YMy+YThing,Parameters).
 	
 +!move_to_dispenser(XMy,YMy) <- true.
 	
@@ -88,8 +88,101 @@ attached_agent(X,Y):- attached(X,Y) & team(Team) & thing(X,Y,entity,Team) & (mat
 	<- 	-goalZone(XMy,YMy)[source(memory)];
 		-goalZone(XMy-1,YMy)[source(memory)];
 		-goalZone(XMy+1,YMy)[source(memory)];
-		-goalZone(XMy-1,YMy-1)[source(memory)];
+		-goalZone(XMy-2,YMy)[source(memory)];
+		-goalZone(XMy+2,YMy)[source(memory)];
+		-goalZone(XMy-3,YMy)[source(memory)];
+		-goalZone(XMy+3,YMy)[source(memory)];
+		-goalZone(XMy-1,YMy+1)[source(memory)];
 		-goalZone(XMy+1,YMy+1)[source(memory)];
+		-goalZone(XMy-2,YMy+1)[source(memory)];
+		-goalZone(XMy+2,YMy+1)[source(memory)];
+		-goalZone(XMy-3,YMy+1)[source(memory)];
+		-goalZone(XMy+3,YMy+1)[source(memory)];
+		-goalZone(XMy-1,YMy+2)[source(memory)];
+		-goalZone(XMy+1,YMy+2)[source(memory)];
+		-goalZone(XMy-2,YMy+2)[source(memory)];
+		-goalZone(XMy+2,YMy+2)[source(memory)];
+		-goalZone(XMy-3,YMy+2)[source(memory)];
+		-goalZone(XMy+3,YMy+2)[source(memory)];
+		-goalZone(XMy-1,YMy+3)[source(memory)];
+		-goalZone(XMy+1,YMy+3)[source(memory)];
+		-goalZone(XMy-2,YMy+3)[source(memory)];
+		-goalZone(XMy+2,YMy+3)[source(memory)];
+		-goalZone(XMy-3,YMy+3)[source(memory)];
+		-goalZone(XMy+3,YMy+3)[source(memory)];
+		-goalZone(XMy-1,YMy-1)[source(memory)];
+		-goalZone(XMy+1,YMy-1)[source(memory)];
+		-goalZone(XMy-2,YMy-1)[source(memory)];
+		-goalZone(XMy+2,YMy-1)[source(memory)];
+		-goalZone(XMy-3,YMy-1)[source(memory)];
+		-goalZone(XMy+3,YMy-1)[source(memory)];
+		-goalZone(XMy-1,YMy-2)[source(memory)];
+		-goalZone(XMy+1,YMy-2)[source(memory)];
+		-goalZone(XMy-2,YMy-2)[source(memory)];
+		-goalZone(XMy+2,YMy-2)[source(memory)];
+		-goalZone(XMy-3,YMy-2)[source(memory)];
+		-goalZone(XMy+3,YMy-2)[source(memory)];
+		-goalZone(XMy-1,YMy-3)[source(memory)];
+		-goalZone(XMy+1,YMy-3)[source(memory)];
+		-goalZone(XMy-2,YMy-3)[source(memory)];
+		-goalZone(XMy+2,YMy-3)[source(memory)];
+		-goalZone(XMy-3,YMy-3)[source(memory)];
+		-goalZone(XMy+3,YMy-3)[source(memory)];
 		-goalZone(XMy,YMy-1)[source(memory)];
-		-goalZone(XMy,YMy+1)[source(memory)];.
+		-goalZone(XMy,YMy+1)[source(memory)];
+		-goalZone(XMy,YMy-2)[source(memory)];
+		-goalZone(XMy,YMy+2)[source(memory)];
+		-goalZone(XMy,YMy-3)[source(memory)];
+		-goalZone(XMy,YMy+3)[source(memory)];.
+		
++!fix_roleZones: position(XMy, YMy) & roleZone(XMy,YMy)[source(memory)] & not(roleZone(0,0)[source(percept)]) 
+	<- 	-roleZone(XMy,YMy)[source(memory)];
+		-roleZone(XMy-1,YMy)[source(memory)];
+		-roleZone(XMy+1,YMy)[source(memory)];
+		-roleZone(XMy-2,YMy)[source(memory)];
+		-roleZone(XMy+2,YMy)[source(memory)];
+		-roleZone(XMy-3,YMy)[source(memory)];
+		-roleZone(XMy+3,YMy)[source(memory)];
+		-roleZone(XMy-1,YMy+1)[source(memory)];
+		-roleZone(XMy+1,YMy+1)[source(memory)];
+		-roleZone(XMy-2,YMy+1)[source(memory)];
+		-roleZone(XMy+2,YMy+1)[source(memory)];
+		-roleZone(XMy-3,YMy+1)[source(memory)];
+		-roleZone(XMy+3,YMy+1)[source(memory)];
+		-roleZone(XMy-1,YMy+2)[source(memory)];
+		-roleZone(XMy+1,YMy+2)[source(memory)];
+		-roleZone(XMy-2,YMy+2)[source(memory)];
+		-roleZone(XMy+2,YMy+2)[source(memory)];
+		-roleZone(XMy-3,YMy+2)[source(memory)];
+		-roleZone(XMy+3,YMy+2)[source(memory)];
+		-roleZone(XMy-1,YMy+3)[source(memory)];
+		-roleZone(XMy+1,YMy+3)[source(memory)];
+		-roleZone(XMy-2,YMy+3)[source(memory)];
+		-roleZone(XMy+2,YMy+3)[source(memory)];
+		-roleZone(XMy-3,YMy+3)[source(memory)];
+		-roleZone(XMy+3,YMy+3)[source(memory)];
+		-roleZone(XMy-1,YMy-1)[source(memory)];
+		-roleZone(XMy+1,YMy-1)[source(memory)];
+		-roleZone(XMy-2,YMy-1)[source(memory)];
+		-roleZone(XMy+2,YMy-1)[source(memory)];
+		-roleZone(XMy-3,YMy-1)[source(memory)];
+		-roleZone(XMy+3,YMy-1)[source(memory)];
+		-roleZone(XMy-1,YMy-2)[source(memory)];
+		-roleZone(XMy+1,YMy-2)[source(memory)];
+		-roleZone(XMy-2,YMy-2)[source(memory)];
+		-roleZone(XMy+2,YMy-2)[source(memory)];
+		-roleZone(XMy-3,YMy-2)[source(memory)];
+		-roleZone(XMy+3,YMy-2)[source(memory)];
+		-roleZone(XMy-1,YMy-3)[source(memory)];
+		-roleZone(XMy+1,YMy-3)[source(memory)];
+		-roleZone(XMy-2,YMy-3)[source(memory)];
+		-roleZone(XMy+2,YMy-3)[source(memory)];
+		-roleZone(XMy-3,YMy-3)[source(memory)];
+		-roleZone(XMy+3,YMy-3)[source(memory)];
+		-roleZone(XMy,YMy-1)[source(memory)];
+		-roleZone(XMy,YMy+1)[source(memory)];
+		-roleZone(XMy,YMy-2)[source(memory)];
+		-roleZone(XMy,YMy+2)[source(memory)];
+		-roleZone(XMy,YMy-3)[source(memory)];
+		-roleZone(XMy,YMy+3)[source(memory)];.
 	
