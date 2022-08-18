@@ -13,24 +13,27 @@ attached_agent(X,Y):- attached(X,Y) & team(Team) & thing(X,Y,entity,Team) & (mat
 		!move_to_dispenser(XMy,YMy).
 		
 +!add_dispenser(XMy,YMy):
-	thing(XThing,YThing,dispenser,Parameters)[entity(Myname),source(percept)] &
-	not(thing(XMy+XThing,YMy+YThing,dispenser,Parameters)[source(memory)]) 
-	<- 	+thing(XMy+XThing,YMy+YThing,dispenser,Parameters)[source(memory)].
+		thing(XThing,YThing,dispenser,Parameters)[entity(Myname),source(percept)] &
+		not(thing(XMy+XThing,YMy+YThing,dispenser,Parameters)[source(memory)]) 
+	<- 	+thing(XMy+XThing,YMy+YThing,dispenser,Parameters)[source(memory)];
+		!tell_other(dispenser,XMy+XThing,YMy+YThing,Parameters).
 		
 +!add_dispenser(XMy,YMy) <- true.
 
 +!update_roleZones(XMy,YMy): 
-	roleZone(XZone,YZone)[entity(Myname),source(percept)] & 
-	not(roleZone(XMy+XZone,YMy+YZone)[source(memory)])
+		roleZone(XZone,YZone)[entity(Myname),source(percept)] & 
+		not(roleZone(XMy+XZone,YMy+YZone)[source(memory)])
 	<- 	+roleZone(XMy+XZone,YMy+YZone)[source(memory)];
+		!tell_other(rolezone,XMy+XZone,YMy+YZone);
 		!move_to_roleZone(XMy+XZone,YMy+YZone,XMy,YMy).
 	
 +!update_roleZones(XMy,YMy) <- true.
 	
 +!update_goalZones(XMy,YMy): 
-	goalZone(XZone,YZone)[entity(Myname),source(percept)] & 
-	not(goalZone(XMy+XZone,YMy+YZone)[source(memory)])
-	<- +goalZone(XMy+XZone,YMy+YZone)[source(memory)];
+		goalZone(XZone,YZone)[entity(Myname),source(percept)] & 
+		not(goalZone(XMy+XZone,YMy+YZone)[source(memory)])
+	<- 	+goalZone(XMy+XZone,YMy+YZone)[source(memory)];
+		!tell_other(goalzone,XMy+XZone,YMy+YZone);
 		!move_to_goalZone(XMy+XZone,YMy+YZone,XMy,YMy).
 	
 +!update_goalZones(XMy,YMy) <- true.
@@ -60,6 +63,20 @@ attached_agent(X,Y):- attached(X,Y) & team(Team) & thing(X,Y,entity,Team) & (mat
 	<- 	-movingToGoalZone(_,_); +movingToGoalZone(XZone,YZone).
 	
 +!move_to_goalZone(XZone,YZone,XMy,YMy) <- true.
+
+
+/* Inform others in the group about the finds */
++!tell_other(dispenser,XT,YT,Parameters): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(dispenser,XT,YT,Parameters)).
++!tell_other(dispenser,XT,YT,Parameters): team_group(List) & .empty(List)      <- true.
+
++!tell_other(goalzone,XZ,YZ): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(goalzone,XZ,YZ)).
++!tell_other(goalzone,XZ,YZ): team_group(List) & .empty(List) <- true.
+
++!tell_other(rolezone,XZ,YZ): team_group(List) & not(.empty(List)) <- .send(List,tell,inform_position(rolezone,XZ,YZ)).
++!tell_other(rolezone,XZ,YZ): team_group(List) & .empty(List) <- true.
+
+
+/* FIX ISSUES related to MEMORY */
 	
 /* In case it lose the block because a clear event */
 +!fix_issues: not(attached(_,_)) & carrying_block <- -carrying_block.

@@ -1,6 +1,6 @@
 {
   "scenario": "city2020",
-  "host": "liara-server.brazilsouth.azurecontainer.io",
+  "host": "localhost",
   "port": 12300,
   "scheduling": false,
   "timeout": 40000,

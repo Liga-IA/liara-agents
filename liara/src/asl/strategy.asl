@@ -70,6 +70,7 @@ roleAbleBlocks:- role(worker) | role(constructor).
 /* MOVING TO ROLE ZONES */
 /* It doesn't has a role yet and knows any RoleZone	*/
 +!continue: my_role(Role) & not(role(Role)[_]) & not(movingToRoleZone(_,_)) & roleZone(XThing,YThing)[source(memory)] 
+		& position(XMy,YMy) & not(roleZone(XThing2,YThing2)[source(memory)] & (math.abs((XThing-XMy) + (YThing-YMy)) > math.abs((XThing2-XMy) + (YThing2-YMy))))
 	<- 	+movingToRoleZone(XThing,YThing);
 	  	!moveTo(XThing,YThing,rolezone).
 	  	

@@ -14,7 +14,17 @@
 /* MOVE TO ROLE-ZONE */
 +!moveTo(XDes,YDes,rolezone): position(XDes,YDes) | (position(XMy,YMy) & (roleZone(XMy,YMy)[source(memory)]))
 	<-	!adoptRole(XDes,YDes);
-		-movingToRoleZone(XDes,YDes).	
+		-movingToRoleZone(XDes,YDes).
+			
+/* finds a better RoleZone */		
+//+!moveTo(XDes,YDes,rolezone): position(XMy,YMy) & roleZone(XO,YO)[source(memory)] & roleZone(XO2,YO2)[source(memory)] & 
+//		(math.abs((XO-XMy) + (YO-YMy)) < math.abs((XDes-XMy) + (YDes-YMy))) & 
+//		not(math.abs((XO2-XMy) + (YO2-YMy)) < math.abs((XO-YO) + (YDes-YMy)))
+//	<-	-movingToRoleZone(XDes,YDes);
+//		+movingToRoleZone(XO,YO);
+//		!moveTo(XO,YO,_).
+		
+
 		
 /* MOVE TO GOAL-ZONE */
 +!moveTo(XDes,YDes,goalzone): position(XDes,YDes) | (position(XMy,YMy) & (goalZone(XMy,YMy)[source(memory)]))
