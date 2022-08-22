@@ -13,3 +13,9 @@
 { include("exploration.asl") }  	// exploration strategy
 { include("complete_task.asl") }  	// complete tasks strategy
 { include("synchronism.asl") }  	// synchronism strategy
+{ include("task_delivery_organization.asl") }  	// task organization strategy
+{ include("connect_and_deliver.asl") }  	// connect and deliver strategy
+{ include("after_event.asl") }  	// after event strategy
+
+
+

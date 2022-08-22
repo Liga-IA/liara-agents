@@ -23,33 +23,39 @@ team_group(List):- .findall(Name,mate_filter(Name,_,_)[_],List).
 
 +!add_mate(Name,XO,YO,XOA,YOA,S) <- true.
 
-/* RECEIVEING INFORMATION from others agents in the group */
 
+
+/* RECEIVEING INFORMATION from others agents in the group */
 /* about DISPENSERS */
 +inform_position(dispenser,XT,YT,Parameters)[list(List),source(TeamMate)]: mate_filter(TeamMate,XFilter,YFilter) 
 	<- 	+thing(XT+XFilter,YT+YFilter,dispenser,Parameters)[source(memory)];
-		-inform_position(dispenser,XT,YT,Parameters)[source(TeamMate)];
+		-inform_position(dispenser,XT,YT,Parameters)[list(List),source(TeamMate)];
 		!transmit_to_others(inform_position(dispenser,XT+XFilter,YT+YFilter,Parameters),List).
 
 +inform_position(dispenser,XT,YT,Parameters)[list(List),source(TeamMate)]: not(mate_filter(TeamMate,XFilter,YFilter))
-	<- 	-inform_position(dispenser,XT,YT,Parameters)[source(TeamMate)]. // ask for the filter, then can sync
+	<- 	-inform_position(dispenser,XT,YT,Parameters)[list(List),source(TeamMate)]. // ask for the filter, then can sync
 	
 /* about GoalZones */
 +inform_position(goalzone,XZ,YZ)[list(List),source(TeamMate)]: mate_filter(TeamMate,XFilter,YFilter) 
 	<-	+goalZone(XZ+XFilter,YZ+YFilter)[source(memory)];
-		-inform_position(goalzone,XZ,YZ)[source(TeamMate)];
+		-inform_position(goalzone,XZ,YZ)[list(List),source(TeamMate)];
 		!transmit_to_others(inform_position(goalzone,XZ+XFilter,YZ+YFilter),List).
 		
 +inform_position(goalzone,XZ,YZ)[list(List),source(TeamMate)]: not(mate_filter(TeamMate,XFilter,YFilter)) 
-	<-	-inform_position(goalzone,XZ,YZ)[source(TeamMate)].
+	<-	-inform_position(goalzone,XZ,YZ)[list(List),source(TeamMate)].
 
 /* about RoleZones */	
 +inform_position(rolezone,XZ,YZ)[list(List),source(TeamMate)]: mate_filter(TeamMate,XFilter,YFilter) 
 	<- 	+roleZone(XZ+XFilter,YZ+YFilter)[source(memory)];
-		-inform_position(rolezone,XZ,YZ)[source(TeamMate)];
+		-inform_position(rolezone,XZ,YZ)[list(List),source(TeamMate)];
 		!transmit_to_others(inform_position(rolezone,XZ+XFilter,YZ+YFilter),List).
 
 +inform_position(rolezone,XZ,YZ)[list(List),source(TeamMate)]: not(mate_filter(TeamMate,XFilter,YFilter))
-	<- 	-inform_position(rolezone,XZ,YZ)[source(TeamMate)].
+	<- 	-inform_position(rolezone,XZ,YZ)[list(List),source(TeamMate)].
 	
-+!transmit_to_others(Info,List): team_group(Team)  <- true. // to implement .. send the information received to those I sync but din't received from who I received
++!transmit_to_others(Info,List): team_group(Team)  <- true. // (TO DO) to implement .. to send the information received to those I sync but din't received from who I received (i.e. Team - List)
+
++!go_away(XMy,YMy,X).
+
+
+
