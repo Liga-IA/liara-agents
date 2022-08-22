@@ -19,7 +19,6 @@ safe_distance(4).
 +!moveTo(XDes,YDes,rolezone): position(XDes,YDes) | (position(XMy,YMy) & (roleZone(XMy,YMy)[source(memory)]))
 	<-	!adoptRole(XDes,YDes);
 		-movingToRoleZone(XDes,YDes).
-		
 /* finds a better RoleZone */	
 +!moveTo(XDes,YDes,rolezone): position(XMy,YMy) & roleZone(XO,YO)[source(memory)] & 
 		((math.abs(XO-XMy) + math.abs(YO-YMy)) < (math.abs(XDes-XMy) + math.abs(YDes-YMy))) & 
@@ -32,7 +31,6 @@ safe_distance(4).
 +!moveTo(XDes,YDes,goalzone): position(XDes,YDes) | (position(XMy,YMy) & (goalZone(XMy,YMy)[source(memory)]))
 	<-	-movingToGoalZone(XDes,YDes);
 		!continue.
-		
 /* finds a better GoalZone */	
 +!moveTo(XDes,YDes,goalzone): position(XMy,YMy) & goalzone(XO,YO)[source(memory)] & 
 		((math.abs(XO-XMy) + math.abs(YO-YMy)) < (math.abs(XDes-XMy) + math.abs(YDes-YMy))) & 
@@ -42,7 +40,7 @@ safe_distance(4).
 		!moveTo(XO,YO,goalzone).
 		
 		
-///* MOVE to DELIVERY task with multiple blocks -> Approaches outside a safezone */
+///* MOVE to DELIVERY task with multiple blocks */
 ///* ABORE LEFT */
 //+!moveTo(XZ,YZ,delivery): helping(Ag,TName,MyBlock,XZ,YZ,XO,YO,_) & YZ<YO & /* approach from above to deliver above left | centred | right  */ 
 //		position(XMy,YMy) & YMy<YZ & not(XMy == XZ)
@@ -100,10 +98,10 @@ safe_distance(4).
 /* Otherwise - same for all */
 /* 0 BLOCKS */		
 /* WITHOUT obstacles  */
-+!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  <- !move(e).
-+!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) <- !move(w).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  <- !move(s).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) <- !move(n).
++!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  <- !move(e).
++!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) <- !move(w).
 
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy < YDes & thing(0,1,obstacle,_)  & XMy < XDes & not(obstacle_at(1,0))  <- !move(e).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy < YDes & thing(0,1,obstacle,_)  & XMy > XDes & not(obstacle_at(-1,0)) <- !move(w).
@@ -115,15 +113,16 @@ safe_distance(4).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) & YMy > YDes & not(obstacle_at(0,-1)) <- !move(n).
 
 /* WITH obstacles */
-+!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  <- clear(1,0).
-+!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) <- clear(-1,0).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy < YDes & thing(0,1,obstacle,_)  <- clear(0,1).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy > YDes & thing(0,-1,obstacle,_) <- clear(0,-1).
++!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  <- clear(1,0).
++!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) <- clear(-1,0).
 
-+!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy < XDes & obstacle_cannot_clear_at(1,0)  <- !move(s).
-+!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy > XDes & obstacle_cannot_clear_at(-1,0) <- !move(n).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy < YDes & obstacle_cannot_clear_at(0,1)  <- !move(w).
 +!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & YMy > YDes & obstacle_cannot_clear_at(0,-1) <- !move(e).
++!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy < XDes & obstacle_cannot_clear_at(1,0)  <- !move(s).
++!moveTo(XDes,YDes,_): .count(has_block(_),0) & position(XMy,YMy) & XMy > XDes & obstacle_cannot_clear_at(-1,0) <- !move(n).
+
 
 
 /* 1 BLOCK */		
@@ -132,22 +131,23 @@ safe_distance(4).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1)) <- !move(s).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,2)) <- !move(s).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1)) & not(obstacle_at(-1,1)) <- !move(s).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1)) & not(obstacle_at(1,1))  <- !move(s).
-/* going to W (-1,0) */
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) <- !move(w).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-2,0)) <- !move(w).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(-1,-1)) <- !move(w).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(-1,1))  <- !move(w).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  & YMy < YDes & not(obstacle_at(0,1)) & not(obstacle_at(-1,1)) <- !move(s).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) & YMy < YDes & not(obstacle_at(0,1)) & not(obstacle_at(1,1))  <- !move(s).
 /* going to N (0,-1) */
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) <- !move(n).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-2)) <- !move(n).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(-1,-1)) <-!move(n).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(1,-1))  <-!move(n).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(-1,-1)) <-!move(n).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(1,-1))  <-!move(n).
 /* going to E (1,0) */
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0)) <- !move(e).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy < XDes & not(obstacle_at(2,0)) <- !move(e).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0)) & not(obstacle_at(1,-1)) <- !move(e).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0)) & not(obstacle_at(1,1))  <- !move(e).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & position(XMy,YMy) & YMy < YDes & thing(0,1,obstacle,_)  & XMy < XDes & not(obstacle_at(1,0)) & not(obstacle_at(1,-1)) <- !move(e).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & YMy > YDes & thing(0,-1,obstacle,_) & XMy < XDes & not(obstacle_at(1,0)) & not(obstacle_at(1,1))  <- !move(e).
+/* going to W (-1,0) */
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) <- !move(w).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-2,0)) <- !move(w).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & position(XMy,YMy) & YMy < YDes & thing(0,1,obstacle,_)  & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(-1,-1)) <- !move(w).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & YMy > YDes & thing(0,-1,obstacle,_) & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(-1,1))  <- !move(w).
 
 /* WITH obstacles */
 /* block back */
@@ -155,41 +155,37 @@ safe_distance(4).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & YMy > YDes & thing(0,-1,obstacle,_) <- clear(0,-1).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  <- clear(1,0).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) <- clear(-1,0).
+//+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & position(XMy,YMy) & YMy < YDes & obstacle_cannot_clear_at(0,1)  <- !move(w).
+//+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & YMy > YDes & obstacle_cannot_clear_at(0,-1) <- !move(e).
+//+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy < XDes & obstacle_cannot_clear_at(1,0)  <- !move(s).
+//+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy > XDes & obstacle_cannot_clear_at(-1,0) <- !move(n).
 
 /*  block right  */
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & obstacle_at(-1,1)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & not(obstacle_at(0,-1)) <- rotate(cw).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & obstacle_at(1,-1)  & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(0,1))  <- rotate(cw).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & obstacle_at(-1,-1) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(1,0))  <- rotate(cw).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & obstacle_at(1,1)   & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & not(obstacle_at(-1,0)) <- rotate(cw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & thing(-1,1,obstacle,_)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & not(obstacle_at(0,-1)) <- rotate(cw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & thing(1,-1,obstacle,_)  & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(0,1))  <- rotate(cw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & thing(-1,-1,obstacle,_) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(1,0))  <- rotate(cw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & thing(1,1,obstacle,_)   & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & not(obstacle_at(-1,0)) <- rotate(cw).
 
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & obstacle_at(-1,1)  & position(XMy,YMy) & YMy < YDes & thing(0,1,obstacle,_)  & thing(0,-1,obstacle,_) <- clear(0,1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & obstacle_at(1,-1)  & position(XMy,YMy) & YMy > YDes & thing(0,-1,obstacle,_) & thing(0,1,obstacle,_)  <- clear(0,-1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & obstacle_at(-1,-1) & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) & thing(1,0,obstacle,_)  <- clear(-1,0).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & obstacle_at(1,1)   & position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  & thing(-1,0,obstacle,_) <- clear(1,0).
-
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & obstacle_at(-1,1)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & thing(0,-1,obstacle,_) <- clear(0,-1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & obstacle_at(1,-1)  & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & thing(0,1,obstacle,_)  <- clear(0,1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & obstacle_at(-1,-1) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & thing(1,0,obstacle,_)  <- clear(1,0).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & obstacle_at(1,1)   & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & thing(-1,0,obstacle,_) <- clear(-1,0).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & thing(-1,1,obstacle,_)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & thing(0,-1,obstacle,_) <- clear(0,-1).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & thing(1,-1,obstacle,_)  & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & thing(0,1,obstacle,_)  <- clear(0,1).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & thing(-1,-1,obstacle,_) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & thing(1,0,obstacle,_)  <- clear(1,0).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & thing(1,1,obstacle,_)   & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & thing(-1,0,obstacle,_) <- clear(-1,0).
 
 /* block left  */
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & obstacle_at(-1,-1) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(0,1))  <- rotate(ccw).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & obstacle_at(1,1)   & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & not(obstacle_at(0,-1)) <- rotate(ccw).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & obstacle_at(1,-1)  & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & not(obstacle_at(-1,0)) <- rotate(ccw).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & obstacle_at(-1,1)  & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(1,0))  <- rotate(ccw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & thing(-1,-1,obstacle,_) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & not(obstacle_at(0,1))  <- rotate(ccw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & thing(1,1,obstacle,_)   & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & not(obstacle_at(0,-1)) <- rotate(ccw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & thing(1,-1,obstacle,_)  & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & not(obstacle_at(-1,0)) <- rotate(ccw).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & thing(-1,1,obstacle,_)  & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & not(obstacle_at(1,0))  <- rotate(ccw).
 
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & obstacle_at(-1,-1) & position(XMy,YMy) & YMy > YDes & thing(0,-1,obstacle,_) & thing(0,1,obstacle,_)  <- clear(0,1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & obstacle_at(1,1)   & position(XMy,YMy) & YMy < YDes & thing(0,1,obstacle,_)  & thing(0,-1,obstacle,_) <- clear(0,-1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & obstacle_at(1,-1)  & position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  & thing(-1,0,obstacle,_) <- clear(-1,0).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & obstacle_at(-1,1)  & position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) & thing(1,0,obstacle,_)  <- clear(1,0).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & thing(-1,-1,obstacle,_) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & thing(0,1,obstacle,_)  <- clear(0,1).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & thing(1,1,obstacle,_)   & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & thing(0,-1,obstacle,_) <- clear(0,-1).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & thing(1,-1,obstacle,_)  & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & thing(-1,0,obstacle,_) <- clear(-1,0).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & thing(-1,1,obstacle,_)  & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & thing(1,0,obstacle,_)  <- clear(1,0).
 
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & obstacle_at(-1,-1) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) & thing(0,1,obstacle,_)  <- clear(0,1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & obstacle_at(1,1)   & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  & thing(0,-1,obstacle,_) <- clear(0,-1).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,-1,_) & obstacle_at(1,-1)  & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  & thing(-1,0,obstacle,_) <- clear(-1,0).
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & obstacle_at(-1,1)  & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) & thing(1,0,obstacle,_)  <- clear(1,0).
 
 /* block front and no obstacles */
-+!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_) & position(XMy,YMy) & YMy < YDes & not(obstacle_at(-1,0)) <- rotate(cw).
+
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & attached(0,1)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(-1,0)) <- rotate(cw).
 
 /* block front -> rotate to side there is no obstacle */
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(0,1,_)  & position(XMy,YMy) & YMy < YDes & not(obstacle_at(-1,0)) <- rotate(cw).
@@ -207,18 +203,24 @@ safe_distance(4).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(1,0,_)  & position(XMy,YMy) & XMy < XDes & thing(0,1,obstacle,_)  <- clear(0,1).
 +!moveTo(XDes,YDes,_): .count(has_block(_),1) & has_block_at(-1,0,_) & position(XMy,YMy) & XMy > XDes & thing(0,-1,obstacle,_) <- clear(0,-1).
 
+
+
 /* TEMPORARY */
 /* blocks by side, just try to move */
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  <- !move(s).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) <- !move(n).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  <- !move(e).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) <- !move(w).
 
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & YMy < YDes & not(obstacle_at(0,1))  <- !move(s).
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & YMy > YDes & not(obstacle_at(0,-1)) <- !move(n).
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & XMy < XDes & not(obstacle_at(1,0))  <- !move(e).
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & XMy > XDes & not(obstacle_at(-1,0)) <- !move(w).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & YMy < YDes & obstacle_at(0,1)  <- !moveTo(XDes-1,YDes,avoid).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & YMy > YDes & obstacle_at(0,-1) <- !moveTo(XDes+1,YDes,avoid).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & XMy < XDes & obstacle_at(1,0)  <- !moveTo(XDes,YDes-1,avoid).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & XMy > XDes & obstacle_at(-1,0) <- !moveTo(XDes,YDes+1,avoid).
 
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & YMy < YDes & thing(0,-1,obstacle,_) <- clear(0,1).
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & YMy > YDes & thing(0,-1,obstacle,_) <- clear(0,-1).
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & XMy < XDes & thing(1,0,obstacle,_)  <- clear(1,0).
-+!moveTo(XDes,YDes,_):  position(XMy,YMy) & XMy > XDes & thing(-1,0,obstacle,_) <- clear(-1,0).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & YMy < YDes  <-  clear(0,1).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & YMy > YDes  <-  clear(0,-1).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & XMy < XDes  <-  clear(1,0).
++!moveTo(XDes,YDes,_): .count(has_block(_),1) & position(XMy,YMy) & XMy > XDes  <-  clear(-1,0).
 
 +!moveTo(XDes,YDes,_): position(XMy,YMy) & YMy < YDes <-  !move(s).
 +!moveTo(XDes,YDes,_): position(XMy,YMy) & YMy > YDes <-  !move(n).

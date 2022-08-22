@@ -8,10 +8,10 @@
   "notifications": false,
   "queued": false,
   "entities": [
-    {"name": "agentA1", "username": "agentA1", "password": "1", "iilang": false, "xml": false},
-    {"name": "agentA2", "username": "agentA2", "password": "1", "iilang": false, "xml": false},
-    {"name": "agentA3", "username": "agentA3", "password": "1", "iilang": false, "xml": false},
-    {"name": "agentA4", "username": "agentA4", "password": "1", "iilang": false, "xml": false},
+    {"name": "agentA1", "username": "agentA1", "password": "1", "iilang": true, "xml": true},
+    {"name": "agentA2", "username": "agentA2", "password": "1", "iilang": true, "xml": true},
+    {"name": "agentA3", "username": "agentA3", "password": "1", "iilang": true, "xml": true},
+    {"name": "agentA4", "username": "agentA4", "password": "1", "iilang": true, "xml": true},
     {"name": "agentA5", "username": "agentA5", "password": "1", "iilang": false, "xml": false},
     {"name": "agentA6", "username": "agentA6", "password": "1", "iilang": false, "xml": false},
     {"name": "agentA7", "username": "agentA7", "password": "1", "iilang": false, "xml": false},
@@ -29,4 +29,5 @@
     {"name": "agentA19", "username": "agentA19", "password": "1", "iilang": false, "xml": false},
     {"name": "agentA20", "username": "agentA20", "password": "1", "iilang": false, "xml": false}
   ]
+  
 }
