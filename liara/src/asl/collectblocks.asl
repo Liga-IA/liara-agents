@@ -7,7 +7,11 @@
 // - include a better strategy: rotate and get another block (keep going with 2 blocks attached) 
 // (maybe front and Back, so that facilitates movement)
 
-+!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & thing(1,0,block,Blocks)
+/* current version collect always at E (avoid two agents connecting the same block) */
+
++!collectBlocks(XDes,YDes,Blocks): position(XMy,YMy) & thing(XDes,YDes,dispenser,_)[source(memory)] & not(thing(XDes-XMy,YDes-YMy,dispenser,_)[entity(Myname),source(percept)]) <- -thing(XDes,YDes,dispenser,_)[source(memory)]; -collectingBlocks(_,_,_); !continue. // temporary to fix a issue
+
++!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & thing(1,0,block,Blocks) 
 	<-	attach(e).
 	
 +!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & thing(-1,0,block,Blocks)
@@ -18,13 +22,12 @@
 
 +!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes+1) & thing(0,-1,block,Blocks)
 	<-	attach(n).
-		
 
 +!collectBlocks(XDes,YDes,Blocks): position(XDes-1,YDes) & thing(XDes,YDes,dispenser,Blocks)
 	<-	request(e).
-
+	
 +!collectBlocks(XDes,YDes,Blocks): position(XDes+1,YDes) & thing(XDes,YDes,dispenser,Blocks)
-	<-	request(w).
+	<-	request(w).	
 		
 +!collectBlocks(XDes,YDes,Blocks): position(XDes,YDes-1) & thing(XDes,YDes,dispenser,Blocks)
 	<- 	request(s).
