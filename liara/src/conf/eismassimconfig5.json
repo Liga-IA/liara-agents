@@ -1,0 +1,33 @@
+{
+  "scenario": "city2020",
+  "host": "localhost",
+  "port": 12300,
+  "scheduling": false,
+  "timeout": 40000,
+  "times": false,
+  "notifications": false,
+  "queued": false,
+  "entities": [
+    {"name": "agentLIARA1", "username": "agentLIARA1", "password": "ius89we", "iilang": true, "xml": true},
+    {"name": "agentLIARA2", "username": "agentLIARA2", "password": "ius89we", "iilang": true, "xml": true},
+    {"name": "agentLIARA3", "username": "agentLIARA3", "password": "ius89we", "iilang": true, "xml": true},
+    {"name": "agentLIARA4", "username": "agentLIARA4", "password": "ius89we", "iilang": true, "xml": true},
+    {"name": "agentLIARA5", "username": "agentLIARA5", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA6", "username": "agentLIARA6", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA7", "username": "agentLIARA7", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA8", "username": "agentLIARA8", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA9", "username": "agentLIARA9", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA10", "username": "agentLIARA10", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA11", "username": "agentLIARA11", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA12", "username": "agentLIARA12", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA13", "username": "agentLIARA13", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA14", "username": "agentLIARA14", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA15", "username": "agentLIARA15", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA16", "username": "agentLIARA16", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA17", "username": "agentLIARA17", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA18", "username": "agentLIARA18", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA19", "username": "agentLIARA19", "password": "ius89we", "iilang": false, "xml": false},
+    {"name": "agentLIARA20", "username": "agentLIARA20", "password": "ius89we", "iilang": false, "xml": false}
+  ]
+  
+}

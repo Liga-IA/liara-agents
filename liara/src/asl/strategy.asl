@@ -11,7 +11,7 @@ roleAbleBlocks:- role(worker) | role(constructor).
 /* Initial goals */
 
 /* reset the agents */
-//simEnd[entity(_),source(percept)] <- .abolish(_[source(memory)]); -position(_,_); +position(0,0).
++simEnd[entity(_),source(percept)] <- !change_round.
 
 +step(X): lastActionResult(failed_status)[_] & deactivated(true)[_]
 	<-  skip.

@@ -7,9 +7,9 @@ closest(dispenser,BlockType,XZ,YZ):- position(XMy,YMy) & thing(XZ,YZ,dispenser,B
 closest_teamMate(TeamMate,TName,BlockType):- cost(Distance,BlockType,TName)[source(TeamMate)] & not(cost(Distance2,BlockType,TName)[source(TeamMate2)] & Distance2 < Distance).
 
 /* same type of blocks */
-+!organize_task_delivery(TName,[req(XDel1,YDel1,Type),req(XDel2,YDel2,Type)],List): name(Name) & .min(List,First) & (Firt<Name) 
-	<- 	+cannot_deliver(TName);
-		!moveTo(XDel1,YDel1,avoid).	
+//+!organize_task_delivery(TName,[req(XDel1,YDel1,Type),req(XDel2,YDel2,Type)],List): name(Name) & .min(List,First) & (First<Name) 
+//	<- 	+cannot_deliver(TName);
+//		!moveTo(XDel1,YDel1,avoid).	
 		
 /* different type of blocks */
 +!organize_task_delivery(TName,[req(XDel1,YDel1,Type1),req(XDel2,YDel2,Type2)],List): (has_block(Type1) & math.abs(XDel1+YDel1)==1) & XDel1 < XDel2 <- !query_team(TName,Type2,List,e).
