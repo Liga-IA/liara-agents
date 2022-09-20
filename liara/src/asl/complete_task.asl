@@ -64,3 +64,7 @@ has_block_at(XDel,YDel,Type) :- thing(XDel,YDel,block,Type) & attached(XDel,YDel
 
 		
 +!submit_task(TName) <- submit(TName).
+
++!cancel_task(Ag,TName) <- .send(Ag,achieve,drop_task(TName)); -helping(_,TName,_,_,_,_,_,_).
+
++!drop_task(TName): helping(_,TName,_,_,_,_,_,_) <- -helping(_,TName,_,_,_,_,_,_).

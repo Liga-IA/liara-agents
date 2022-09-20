@@ -36,7 +36,7 @@ public class EISAdapter extends Environment implements AgentListener {
 
     	System.out.println("Initialising EISAdapter Environment");
 
-        ei = new EnvironmentInterface("src/conf/eismassimconfigFinal.json");
+        ei = new EnvironmentInterface("src/conf/eismassimconfigLocal.json");
 
         try {
             ei.start();

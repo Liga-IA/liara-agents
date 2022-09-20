@@ -98,7 +98,12 @@ roleAbleBlocks:- role(worker) | role(constructor).
 		-helping(_,TName,_,_,_,_,_,_);
 		!continue.	
 
-+!continue: helping(Ag,TName,MyBlock,XZ,YZ,XO,YO,_) & task(TName,_,_,_)[_] & has_block(MyBlock) & position(XZ,YZ) // ( TO DO ) test if it is not a goalzone anymore
++!continue: helping(Ag,TName,MyBlock,XZ,YZ,XO,YO,1) & task(TName,_,_,_)[_] & has_block(MyBlock) & position(XZ,YZ) 
+			& goalZone(XZ,YZ)[source(memory)] & not(goalZone(0,0)[source(percept)]) // test if it is not a goalzone anymore, and cancel the task
+	<- 	!fix_goalZones;
+		!cancel_task(Ag,TName).
+
++!continue: helping(Ag,TName,MyBlock,XZ,YZ,XO,YO,_) & task(TName,_,_,_)[_] & has_block(MyBlock) & position(XZ,YZ) 
 	<- 	!connect(Ag,XZ,YZ,XO,YO).
 
 +!continue: helping(Ag,TName,MyBlock,XZ,YZ,XO,YO,_) & task(TName,_,_,_)[_] & has_block(MyBlock) & not(position(XZ,YZ))  
@@ -121,6 +126,12 @@ roleAbleBlocks:- role(worker) | role(constructor).
 /* It perceives it has the block required for a SIMPLE task (1 block) */
 +!continue: task(TName,_,_,[req(XDel,YDel,Type)])[_] & has_block(Type) & goalZone(X1,Y1)[source(memory)] 
 	<- 	!deliver_task(TName,[req(XDel,YDel,Type)]).
+	
+/* Get a block for a simple task case it is doing nothing else */
++!continue: not(has_block(_)) & not(movingToDispenser(_,_,_)) & not(collectingBlocks(_,_,_)) & my_role(Role) & role(Role)[_] 
+	& task(TName,_,_,[req(_,_,BlockType)])[_] & closest(dispenser,BlockType,XD,YD) // (To DO) check if it is too far
+	<- 	+movingToDispenser(XD,YD,BlockType);
+		!moveTo((XD-1),YD,dispenser).
 
 /* Get a block in case it is doing nothing else */
 +!continue: not(has_block(_)) & not(movingToDispenser(_,_,_)) & not(collectingBlocks(_,_,_)) & my_role(Role) & role(Role)[_] & closest(dispenser,BlockType,XD,YD)

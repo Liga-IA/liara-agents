@@ -6,7 +6,7 @@ MAS mapc2021 {
     environment: eis.EISAdapter
 
     agents:
-        agentLIARA #40;
+         agentLIARA #40;
        //agentA #40;  // config3 tem 5 agentes, config tem 2, config2 tem 20, config4 tem 10
         
      aslSourcePath:
