@@ -4,3 +4,5 @@ LI(A)RA is a project by students and professors from the Federal University of S
 
 In this repository, we implement the team's solution used during the [MAPC 2022](https://multiagentcontest.org/). 
 It was the first year our team participated in Multi-Agent Programming Contest, and we finished it in 4th. 
+
+Our soluction is implemented using [Jason](https://jason.sourceforge.net/) platform.  
