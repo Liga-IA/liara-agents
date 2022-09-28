@@ -42,7 +42,7 @@ safe_distance(4).
 		!moveTo(XO,YO,goalzone).
 		
 		
-///* MOVE to DELIVERY task with multiple blocks -> Approaches outside a safezone */
+///* MOVE to DELIVERY task with multiple blocks -> Approaches outside a "safezone" */
 ///* ABORE LEFT */
 //+!moveTo(XZ,YZ,delivery): helping(Ag,TName,MyBlock,XZ,YZ,XO,YO,_) & YZ<YO & /* approach from above to deliver above left | centred | right  */ 
 //		position(XMy,YMy) & YMy<YZ & not(XMy == XZ)

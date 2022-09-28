@@ -86,6 +86,7 @@ attached_agent(X,Y):- attached(X,Y) & team(Team) & thing(X,Y,entity,Team) & (mat
 +!fix_issues: attached_agent(-1,0) <- detach(w).
 +!fix_issues <- true.
 
+// YES - this code below is hard code :(
 
 +!fix_goalZones: position(XMy, YMy) & goalZone(XMy,YMy)[source(memory)] & not(goalZone(0,0)[source(percept)]) 
 	<- 	-goalZone(XMy,YMy)[source(memory)];
